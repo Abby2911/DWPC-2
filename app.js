@@ -8,6 +8,7 @@ var debug = require('debug')('DWPC-2:server');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var aboutRouter = require('./routes/about');
 
 //Creando la instancia de express
 var app = express();
