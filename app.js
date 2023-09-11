@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 //Activa "userRouter" cuando se solicita "/users"
 app.use('/users', usersRouter);
+app.use('/about', aboutRouter);
 // app.use('/author', (req, res)=>{
 //   res.json({mainDeveloper: "Marcos Adan" })
 // })
