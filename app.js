@@ -9,7 +9,6 @@ var debug = require('debug')('DWPC-2:server');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var aboutRouter = require('./routes/about');
-
 //Creando la instancia de express
 var app = express();
 
@@ -31,6 +30,7 @@ app.use('/', indexRouter);
 //Activa "userRouter" cuando se solicita "/users"
 app.use('/users', usersRouter);
 app.use('/about', aboutRouter);
+app.use('/about/api', aboutRouter);
 // app.use('/author', (req, res)=>{
 //   res.json({mainDeveloper: "Marcos Adan" })
 // })

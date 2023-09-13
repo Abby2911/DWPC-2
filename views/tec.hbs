@@ -10,3 +10,26 @@
 <li>Responsabilidad</li>
 </ul>
 <P>😎 Author: {{nombre}}</P>
+
+<script language="JavaScript">
+function random_publicidad_sidebar_1(){
+
+var imagenes=new Array()
+imagenes[1]="https://i.ytimg.com/vi/zwui433EmSA/maxresdefault.jpg"
+imagenes[2]="https://gamadero.tecnm.mx/inventariomantenimiento/Equipos/Sis_Sol/img/itgam.png"
+imagenes[3]="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR6xTlt2zx53cIJ38j-OnQzsR-dsEtcATRNw&usqp=CAU"
+imagenes[4]="https://ofertaacademica.tecnm.mx/images/8vo.jpg"
+
+var link=new Array()
+link[1]="https://i.ytimg.com/vi/zwui433EmSA/maxresdefault.jpg"
+link[2]="https://gamadero.tecnm.mx/inventariomantenimiento/Equipos/Sis_Sol/img/itgam.png"
+link[3]="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR6xTlt2zx53cIJ38j-OnQzsR-dsEtcATRNw&usqp=CAU"
+link[4]="https://ofertaacademica.tecnm.mx/images/8vo.jpg"
+
+var ry_imagenes=Math.floor(Math.random()*imagenes.length)
+if (ry_imagenes==0)
+ry_imagenes=1
+document.write('<a href='+'"'+link[ry_imagenes]+'"target="_blank"'+'><img src="'+imagenes[ry_imagenes]+'" width="50%" height="50%" style="padding-top: 20px;"></a>')
+}
+random_publicidad_sidebar_1()
+</script>
