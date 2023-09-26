@@ -1,5 +1,10 @@
-//Importar el modulo Path
+// Notas importanes
+// El archivo de configuración debe usar ES5
+// that's why you will see "requires" not "imports"
+// Importing an file routing manager
 const path = require('path');
+// Importing Extract Plugin
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 //Exportamos un Configuration Options Object 
 module.exports = {
@@ -49,5 +54,17 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
+      }
+    ]
+  },
+  plugins: [new MiniCssExtractPlugin({
+    // Archivo css de salida
+    filename: 'styles/app.css'
+  })]
 }
