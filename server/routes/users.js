@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
 
@@ -12,4 +12,4 @@ router.get('/author', (_, res) => {
   res.render('author', { author: 'Marcos Adan' });
 });
 
-module.exports = router;
+export default router;

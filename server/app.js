@@ -8,11 +8,13 @@ import logger from 'morgan';
 import webpack from 'webpack';
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
-import debug from './services/debugLogger';
+import webpackConfig from '../webpack.dev.config';
+
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import debug from './services/debugLogger';
 // Importing webpack configuration
-import webpackConfig from '../webpack.dev.config';
+
 // Creando la instancia de express
 const app = express();
 

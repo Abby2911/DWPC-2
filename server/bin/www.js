@@ -3,25 +3,26 @@
 /**
  * Module dependencies.
  */
-const debug = require('debug')('DWPC-2:server');
-const http = require('http');
-const app = require('../app');
+import Debug from 'debug';
+import http from 'http';
+import app from '../app';
 
+const debug = Debug('DWPC-2:server');
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  const secondport = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
-  if (Number.isNaN(secondport)) {
+  if (Number.isNaN(port)) {
     // named pipe
     return val;
   }
 
-  if (secondport >= 0) {
+  if (port >= 0) {
     // port number
-    return secondport;
+    return port;
   }
 
   return false;
@@ -33,8 +34,6 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
-const server = http.createServer(app); // app tiene la forma (request,response) => {...}
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -69,6 +68,8 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
+
+const server = http.createServer(app); // app tiene la forma (request,response) => {...}
 
 function onListening() {
   const addr = server.address();
