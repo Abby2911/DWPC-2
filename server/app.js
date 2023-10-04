@@ -1,29 +1,28 @@
 // Cargando dependencias
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
 // Setting Webpack Modules
 import webpack from 'webpack';
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
+import debug from './services/debugLogger';
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
 // Importing webpack configuration
 import webpackConfig from '../webpack.dev.config';
-
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const debug = require('debug')('DWPC-2:server');
-
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-
 // Creando la instancia de express
 const app = express();
+
 // Get the execution mode
 const nodeEnviroment = process.env.NODE_ENV || 'production';
+
 // Deciding if we add webpack middleware or not
 if (nodeEnviroment === 'development') {
   // Start Webpack dev server
-  console.log('🛠️  Ejecutando en modo desarrollo');
+  debug('🛠️ Ejecutando en modo desarrollo 🛠️');
   // Adding the key "mode" with its value "development"
   webpackConfig.mode = nodeEnviroment;
   // Setting the dev server port to the same value as the express server
@@ -39,16 +38,17 @@ if (nodeEnviroment === 'development') {
   // Creating the bundler
   const bundle = webpack(webpackConfig);
   // Enabling the webpack middleware
-  app.use(WebpackDevMiddleware(bundle, {
-    publicPath: webpackConfig.output.publicPath,
-  }));
+  app.use(
+    WebpackDevMiddleware(bundle, {
+      publicPath: webpackConfig.output.publicPath,
+    }),
+  );
   //  Enabling the webpack HMR
   app.use(WebpackHotMiddleware(bundle));
 } else {
   console.log('🏭 Ejecutando en modo producción 🏭');
 }
 // Configurando el motor de plantillas
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -60,13 +60,14 @@ app.use(cookieParser());
 // Crea un server de archivos estaticos
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Registro de middlewares de aplicacion
+// Registro de Middlewares de aplicación
 app.use('/', indexRouter);
-// Activa "userRouter" cuando se solicita "/users"
+// Activa "usersRourter" cuando se
+// solicita "/users"
 app.use('/users', usersRouter);
 // app.use('/author', (req, res)=>{
-//   res.json({mainDeveloper: "Marcos Adan" })
-// })
+//   res.json({mainDeveloper: "Ivan Rivalcoba"})
+// });
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -74,7 +75,7 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -84,4 +85,4 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-module.exports = app;
+export default app;
