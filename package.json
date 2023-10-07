@@ -7,6 +7,7 @@
     "dev": "NODE_ENV=development DEBUG=DWPC-2:server babel-watch ./server/bin/www",
     "devb": "babel-watch ./server/bin/www",
     "devc": "NODE_ENV=development && webpack server --config ./webpack.dev.config.js --mode development",
+    "clean:logs": "rm -rf ./server/logs/*.log",
     "cleans": "rm -rf ./dist",
     "cleanc": "rm -f ./public/bundle.js ./public/styles/app.css",
     "b:s": "npm run cleans && babel ./server --out-dir dist --copy-files",
@@ -14,6 +15,7 @@
     "build": "npm run b:c && npm run b:s"
   },
   "dependencies": {
+    "app-root-path": "^3.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
@@ -22,7 +24,8 @@
     "morgan": "~1.9.1",
     "webpack": "^5.76.1",
     "webpack-dev-middleware": "^6.1.1",
-    "webpack-hot-middleware": "^2.25.4"
+    "webpack-hot-middleware": "^2.25.4",
+    "winston": "^3.10.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.15",
