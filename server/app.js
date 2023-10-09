@@ -1,23 +1,33 @@
 // Cargando dependencias
 import createError from 'http-errors';
+
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+
 // Setting Webpack Modules
 import webpack from 'webpack';
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
+
+// Importing template-engine
+import configTemplateEngine from './config/templateEngine';
+
+// Importing webpack configuration
 import webpackConfig from '../webpack.dev.config';
+
+// Impornting winston logger
+import log from './config/winston';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import debug from './services/debugLogger';
-// Impornting winston logger
-import log from './config/winston';
-// Importing webpack configuration
+
+// Creando variable del directorio raiz
 // eslint-disable-next-line
-global["__rootdir"] = path.resolve(process.cwd());
+global['__rootdir'] = path.resolve(process.cwd());
+
 // Creando la instancia de express
 const app = express();
 
@@ -53,13 +63,11 @@ if (nodeEnviroment === 'development') {
 } else {
   console.log('🏭 Ejecutando en modo producción 🏭');
 }
-// Configurando el motor de plantillas
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+
+// Configuring the template engine
+configTemplateEngine(app);
 
 // Se establecen los middlewares
-app.use(morgan('dev'));
-// Log all received requests
 app.use(morgan('dev', { stream: log.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -72,6 +80,9 @@ app.use('/', indexRouter);
 // Activa "usersRourter" cuando se
 // solicita "/users"
 app.use('/users', usersRouter);
+// app.use('/author', (req, res)=>{
+//   res.json({mainDeveloper: "Ivan Rivalcoba"})
+// });
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
