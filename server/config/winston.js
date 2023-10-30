@@ -1,13 +1,11 @@
 // Importando el core de winston
 // y la función format de winston>
-// eslint-disable-next-line import/no-extraneous-dependencies
 import winston, { format } from 'winston';
 import path from 'path';
 
 // Se desestructuran funciones para realizar la
 // composición del formato
-// eslint-disable-next-line object-curly-newline
-const { combine, timestamp, label, printf, colorize } = format;
+const { combine, timestamp, label, prettyPrint, colorize } = format;
 
 // Creando variable del directorio raiz
 // eslint-disable-next-line
@@ -37,11 +35,7 @@ const myConsoleFormat = combine(
   // Agregando Fecha
   timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }),
   // Función de impreson
-  printf(
-    (info) =>
-      // eslint-disable-next-line implicit-arrow-linebreak
-      `${info.level}: ${info.label}: ${info.timestamp}: ${info.message}`,
-  ),
+  prettyPrint(),
 );
 
 // Formato para los archivos
