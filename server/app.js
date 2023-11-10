@@ -18,8 +18,10 @@ import webpackConfig from '../webpack.dev.config';
 
 // Impornting winston logger
 import log from './config/winston';
-// Importando enrutador
+
+// Importing Router
 import router from './router';
+
 import debug from './services/debugLogger';
 
 // Creando variable del directorio raiz
@@ -64,14 +66,13 @@ if (nodeEnviroment === 'development') {
 
 // Configuring the template engine
 configTemplateEngine(app);
-
-// Database connecting checker Middleware
+//  Database connecition Checker Middleware
 app.use((req, res, next) => {
   if (mongoose.connection.readyState === 1) {
-    log.info('✔Verificacion de conexion a db exitosa');
+    log.info('✅ Verificacion de conexion a db exitosa');
     next();
   } else {
-    log.info('❌No pasa la verificacion de conexion a la DB');
+    log.info('🔴 No pasa la verificacion de conexion a la db');
     res.status(503).render('errors/e503View', { layout: 'errors' });
   }
 });
@@ -84,6 +85,7 @@ app.use(cookieParser());
 // Crea un server de archivos estaticos
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+// Registro de Rutas
 router.addRoutes(app);
 
 export default app;

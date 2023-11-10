@@ -1,20 +1,19 @@
 // Actions methods
-// GET "/"
-// GET "/index"
-
-// GET '/user/login'
+// GET "/login"
 const login = (req, res) => {
-  res.send("👷‍♀️ UNDER CONSTRUCTION GET '/user/login' 👷‍♀️");
+  res.send("🚧 UNDER CONSTRUCTION '/user/login' 🚧");
 };
-// GET '/user/logout'
+
+// GET "/logout"
 const logout = (req, res) => {
-  res.send("👷‍♀️ UNDER CONSTRUCTION GET '/user/logout' 👷‍♀️");
+  res.send("🚧 UNDER CONSTRUCTION '/user/logout' 🚧");
 };
-// GET '/user/register'
+
+// GET "/register"
 const register = (req, res) => {
-  res.send("👷‍♀️ UNDER CONSTRUCTION GET '/user/register' 👷‍♀️");
+  res.send("🚧 UNDER CONSTRUCTION '/user/register' 🚧");
 };
-// Controlador Home
+
 export default {
   login,
   logout,
