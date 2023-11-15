@@ -1,30 +1,42 @@
+// Importing winston logger
+import log from '../../config/winston';
+
 // Actions methods
-
-// GET /project/projects
-//  GET /project/dashboard
-
+// GET "/project"
 const showDashboard = (req, res) => {
-  res.send("🚧 UNDER CONSTRUCTION '/project/projects' '/project/dashboar'  🚧");
+  res.send('⚠️ UNDER CONSTRUCTION: GET /project ⚠️');
 };
-const addPost = (req, res) => {
-  // Extrayendo la informacion
-  // del formulario
-  const { name, description } = req.body;
-  // Regresando al cliente la información recabada
-  res.status(200).json({
-    name,
-    description,
-  });
-};
-// GET /project/add-form
-// GET /project/add
-const addForm = (req, res) => {
+
+// GET "/project/add"
+const add = (req, res) => {
   res.render('project/addView');
 };
 
-// Controlador Home
+// POST "/project/add"
+const addPost = (req, res) => {
+  // Rescatando la info del formulario
+  const { errorData: validationError } = req;
+  // En caso de haber error
+  // se le informa al cliente
+  if (validationError) {
+    log.info('Se entrega al cliente error de validación de add Project');
+    res.status(422).json(validationError);
+  } else {
+    // En caso de que pase la validación
+    // Se desestructura la información
+    // de la peticion
+    const { validData: project } = req;
+    // Se contesta la información
+    // del proyecto al cliente
+    log.info('Se entrega al cliente información del proyecto cargado');
+    res.status(200).json(project);
+  }
+};
+
+// Controlador user
 export default {
+  // Action Methods
   showDashboard,
-  addForm,
+  add,
   addPost,
 };
