@@ -9,7 +9,7 @@
                     Crear Proyecto
                     </span>
             </div>
-            <form autocomplete="off" action="/project/add" method="post">
+            <form autocomplete="off" action="/projects/add" method="post">
             <div class="card-content">
                 <div class="input-field">
                     <label for="project-name">
@@ -19,9 +19,13 @@
                     type="text"
                     id="project-name"
                     name="name"
-                    required
                     placeholder="Ingrese nombre del proyecto"
-                    class="validate">
+                    class="validate"
+                    value="{{ project.name }}"
+                    />
+  {{#if errorModel.name }}
+    <span style="color: crimson;">Error: {{ errorModel.name }}</span>
+  {{/if}}
                 </div>
                 <div class="input-field"></div>
                 <label for="project-description">
@@ -30,9 +34,11 @@
                     <textarea 
                     name="description"
                     id="project-description"
-                    required
                     placeholder="Ingrese descripcion del proyecto"
-                    class="materialize-textarea"></textarea>                    
+                   	class="materialize-textarea" required>{{project.description}}</textarea>
+  {{#if errorModel.description }}
+    <span style="color: crimson;">Error: {{ errorModel.description }}</span>
+  {{/if}}                  
             </div>
             <div class="card-action">
                 <button class="blue darken-3 waves-effect waves-light btn">
