@@ -21,8 +21,13 @@
                     name="name"
                     placeholder="Ingrese nombre del proyecto"
                     class="validate"
-                    value="{{ project.name }}"
-                    />
+                    value="{{ project.name }}"required
+            />
+            <span 
+              class="helper-text"
+              data-error="Es necesario ingresar el nombre del proyecto"
+              data-success="✅ Correcto"
+              ></span>
   {{#if errorModel.name }}
     <span style="color: crimson;">Error: {{ errorModel.name }}</span>
   {{/if}}
@@ -35,10 +40,12 @@
                     name="description"
                     id="project-description"
                     placeholder="Ingrese descripcion del proyecto"
-                   	class="materialize-textarea" required>{{project.description}}</textarea>
-  {{#if errorModel.description }}
-    <span style="color: crimson;">Error: {{ errorModel.description }}</span>
-  {{/if}}                  
+                   class="materialize-textarea validate" required>{{project.description}}</textarea>
+              <span 
+              class="helper-text"
+              data-error="Debe ingresar una descripción"
+              data-success="✅ Correcto"
+              ></span>    
             </div>
             <div class="card-action">
                 <button class="blue darken-3 waves-effect waves-light btn">
