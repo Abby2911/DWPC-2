@@ -12,7 +12,7 @@ const addRoutes = (app) => {
   // Agregado el enrutado de user
   app.use('/user', userRouter);
   // Agregado el enrutado de project
-  app.use('/projects', projectRouter);
+  app.use('/project', projectRouter);
   return app;
 };
 
