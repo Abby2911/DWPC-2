@@ -1,7 +1,9 @@
 // Actions methods
+import log from '../../config/winston';
 // GET "/login"
 const login = (req, res) => {
-  res.send("🚧 UNDER CONSTRUCTION '/user/login' 🚧");
+  log.info('Se entrega formulario de login');
+  res.render('users/login');
 };
 
 // GET "/logout"
@@ -11,7 +13,8 @@ const logout = (req, res) => {
 
 // GET "/register"
 const register = (req, res) => {
-  res.send("🚧 UNDER CONSTRUCTION '/user/register' 🚧");
+  log.info('Se entrega formulario de registro');
+  res.render('users/register');
 };
 
 export default {

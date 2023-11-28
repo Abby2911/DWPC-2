@@ -79,6 +79,8 @@ const edit = async (req, res) => {
         .json({ fail: `No se encontro el proyecto con el id: ${id}` });
     }
     log.info(`Proyecto encontrado con el id: ${id}`);
+    // Generando mensaje FLASH
+    req.flash('successMessage', 'Proyecto editado con exito');
     return res.render('project/editView', { project });
   } catch (error) {
     log.error('Ocurre un error en: metodo "error" de project.controller');
@@ -95,6 +97,8 @@ const deleteProject = async (req, res) => {
   // Usando el modelo para borrar el proyecto
   try {
     const result = await ProjectModel.findByIdAndRemove(id);
+    // Agregando mensaje de flash
+    req.flash('successMessage', 'Proyecto borrado con exito');
     return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error);

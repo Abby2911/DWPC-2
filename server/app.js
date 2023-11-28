@@ -11,7 +11,8 @@ import methodOverride from 'method-override';
 import webpack from 'webpack';
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
-
+// Importando configurador de sesiones
+import configSession from './config/configSessions';
 // Importing template-engine
 import configTemplateEngine from './config/templateEngine';
 
@@ -87,6 +88,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // Enable post and delete verbs
 app.use(methodOverride('_method'));
+// Habilitando manejo de sesiones y mensajes flash
+configSession(app);
 // Crea un server de archivos estaticos
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
