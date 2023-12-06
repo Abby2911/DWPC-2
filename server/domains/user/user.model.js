@@ -5,6 +5,10 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import uniqueValidator from 'mongoose-unique-validator';
 
+import log from '../../config/winston';
+import configKeys from '../../config/configKeys';
+import MailSender from '../../services/mailSender';
+
 // 2. Desestructurando la fn Schema
 const { Schema } = mongoose;
 // 3. Creando el esquema
@@ -12,6 +16,10 @@ const UserSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastname: { type: String, required: true },
+    image: {
+      type: String,
+      default: 'https://img.icons8.com/fluent/48/000000/user-male-circle.png',
+    },
     mail: {
       type: String,
       unique: true,
@@ -47,15 +55,20 @@ const UserSchema = new Schema(
         message: 'Es necesario ingresar un password fuerte',
       },
     },
+    // agrega una propiedad que identifica el rol del usuario como user o admin
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      message: '{VALUE} no es un rol valido',
+      default: 'user',
+    },
     emailConfirmationToken: String,
     emailConfirmationAt: Date,
   },
   { timestamps: true },
 );
-
 // Adding Plugins to Schema
 UserSchema.plugin(uniqueValidator);
-
 // Asignando metodos de instancia
 UserSchema.methods = {
   // Metodo para encriptar el password
@@ -73,6 +86,7 @@ UserSchema.methods = {
       firstName: this.firstName,
       lastname: this.lastname,
       mail: this.mail,
+      role: this.role,
       emailConfirmationToken: this.emailConfirmationToken,
       emailConfirmationAt: this.emailConfirmationAt,
       createdAt: this.createdAt,
@@ -80,14 +94,60 @@ UserSchema.methods = {
     };
   },
 };
-
 // Hooks
 UserSchema.pre('save', function presave(next) {
   // Encriptar el password
   if (this.isModified('password')) {
     this.password = this.hashPassword();
   }
+  // Creando el token de confirmacion
+  this.emailConfirmationToken = this.generateConfirmationToken();
   return next();
+});
+
+UserSchema.post('save', async function sendConfirmationMail() {
+  // Creating Mail options
+  const options = {
+    host: configKeys.SMTP_HOST,
+    port: configKeys.SMTP_PORT,
+    secure: false,
+    auth: {
+      user: configKeys.MAIL_USERNAME,
+      pass: configKeys.MAIL_PASSWORD,
+    },
+  };
+
+  const mailSender = new MailSender(options);
+
+  // Configuring mail data
+  mailSender.mail = {
+    from: 'marcos.mgarcia@hotmail.com',
+    to: this.mail,
+    subject: 'Account confirmation',
+  };
+
+  try {
+    const info = await mailSender.sendMail(
+      'confirmation',
+      {
+        user: this.firstName,
+        lastname: this.lastname,
+        mail: this.mail,
+        token: this.emailConfirmationToken,
+      },
+      `
+      Estimado ${this.firstName} ${this.lastname}  
+      hemos enviado un correo de confirmación a ${this.mail}  
+      favor de hacer clic en enlace de dicho correo`,
+    );
+
+    if (!info) return log.info('😭 No se pudo enviar el correo');
+    log.info('🎉 Correo enviado con exito');
+    return info;
+  } catch (error) {
+    log.error(`🚨 ERROR al enviar correo: ${error.message}`);
+    return null;
+  }
 });
 
 // 4. Compilando el modelo y exportandolo
